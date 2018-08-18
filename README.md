@@ -17,7 +17,6 @@ Use Docker image: pavansh/custom-error-pages
 or create new deployment
 
 ```
-cd k8s
 kubectl apply -f https://raw.githubusercontent.com/pavansh/custom-error-pages/master/k8s/deployment.yaml
 kubectl apply -f https://raw.githubusercontent.com/pavansh/custom-error-pages/master/k8s/service.yaml
 ```
