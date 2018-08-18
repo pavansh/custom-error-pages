@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: custom-http-backend
+  name: custom-http-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: custom-http-backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: custom-http-backend
+    spec:
+      containers:
+      - image: pavansh/custom-error-pages
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: custom-http-backend
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 10m
+            memory: 80Mi
+          requests:
+            cpu: 10m
+            memory: 80Mi
+
